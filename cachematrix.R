@@ -5,9 +5,9 @@
 ## repeatedly. The assignment is to write a pair of functions that cache 
 ## the inverse of a matrix.  
 
-## Function:makeCacheMatrix
-##
-## Description: This function creates a special "matrix" object that can cache it inverse
+
+
+## This function creates a special "matrix" object that can cache it inverse
 #
 # Args:
 #   x: The matrix which inverse to be calculated
