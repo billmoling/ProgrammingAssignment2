@@ -1,4 +1,4 @@
-## Coursera, R Programming, April 2014
+## Coursera, R Programming, 2014
 ## Assignment: Caching the Inverse of a Matrix
 ## Matrix inversion is usually a costly computation and their may be some 
 ## benefit to caching the inverse of a matrix rather than compute it 
@@ -6,19 +6,28 @@
 ## the inverse of a matrix.  
 
 ## Function:makeCacheMatrix
+##
 ## Description: This function creates a special "matrix" object that can cache it inverse
-
+#
+# Args:
+#   x: The matrix which inverse to be calculated
+# 
+# Returns:
+#   The object that can cache the inverse of the matrix.  
 makeCacheMatrix <- function(x = matrix()) {
     #invMatrix - inverse matrix value
     invMatrix <- NULL #default value - NULL
     
-    #setMatrix function: matrix and reset invMatrix
-    setMatrix <- function(y){
-      matrix <<- y
+    # set the value of the matrix and clear the value of inverse matrix
+    # The "<<-" operator used to set variable that already exists 
+    # in the parent environment.
+    set <- function(y){
+      x <<- y
       invMatrix <<- NULL
     }
+    
     #getMatrix function: get matrix
-    getMatrix <- function() matrix
+    get <- function() x
     
     #setInvMatrix function: set inverse matrix
     setInvMatrix <- function(inverseMatrix) invMatrix <<- inverseMatrix
@@ -26,18 +35,24 @@ makeCacheMatrix <- function(x = matrix()) {
     #getInvMatrix function: get inverse matrix
     getInvMatrix <- function() invMatrix
     
-    list(setMatrix = setMatrix, getMatrix=getMatrix,
+    # create the list to access properties with $ sign. 
+    list(set = set, get=get,
          setInvMatrix = setInvMatrix,
          getInvMatrix = getInvMatrix)
 }
 
 
-## Write a short comment describing this function
-
+## Return a matrix that is the inverse of 'x'
+#
+# Args:
+#   x: The makeCacheMatrix object.
+# 
+# Returns:
+#   The inverse matrix.
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+        
     #get invMatrix
-    invMatrix <- matrix$getInvMatrix()
+    invMatrix <- x$getInvMatrix()
     
     #check if it is not null
     if (!is.null(invMatrix)){
@@ -46,8 +61,15 @@ cacheSolve <- function(x, ...) {
     }
     
     #if it is null, calculate the inverse
-    data <- matrix$getMatrix()
-    inv <- solve(data, ...)
-    matrix$setInvMatrix(inv) #save it
-    inv
+    data <- x$get()
+    inv <- solve(data, ...)   # Inverse matrix
+    x$setInvMatrix(inv) #save it
+    inv # return inverse matrix
 }
+
+# test
+# m <- makeCacheMatrix(matrix(1:4, nrow = 2, ncol = 2))
+# cacheSolve(m)
+
+
+
